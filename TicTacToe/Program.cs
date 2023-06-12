@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 
 int[,] board = new int[3, 3];
 int firstPlayer = 1;
