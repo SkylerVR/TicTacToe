@@ -44,26 +44,25 @@ void PlayGame()
     while (true)
     {
         Console.WriteLine($"Player {currentPlayer}, enter your move (1-9):");
-        int move = int.Parse(Console.ReadLine());
+        string moveInput = Console.ReadLine();
+        int move;
 
-        if (move >= 1 && move <= 9)
+        if (!int.TryParse(moveInput, out move) || move < 1 || move > 9)
         {
-            int row = (move - 1) / 3;
-            int col = (move - 1) % 3;
+            Console.WriteLine("Invalid move. Enter a number between 1 and 9.");
+            continue;
+        }
 
-            if (board[row, col] == 0)
-            {
-                board[row, col] = currentPlayer;
-            }
-            else
-            {
-                Console.WriteLine("Invalid move. Cell is not empty.");
-                continue;
-            }
+        int row = (move - 1) / 3;
+        int col = (move - 1) % 3;
+
+        if (board[row, col] == 0)
+        {
+            board[row, col] = currentPlayer;
         }
         else
         {
-            Console.WriteLine("Invalid move. Enter a number between 1 and 9.");
+            Console.WriteLine("Invalid move. Cell is not empty.");
             continue;
         }
 
@@ -106,7 +105,7 @@ static void DrawBoard(int[,] board)
     {
         for (int col = 0; col < 3; col++)
         {
-            int cell = board[row, col] == 0 ? row * 3 + col + 1 : board[row, col];
+            string symbol = board[row, col] == 0 ? (row * 3 + col + 1).ToString() : (board[row, col] == 1 ? "X" : "O");
 
             Console.Write(" ");
 
@@ -119,7 +118,7 @@ static void DrawBoard(int[,] board)
                 Console.ForegroundColor = ConsoleColor.Blue;
             }
 
-            Console.Write(cell);
+            Console.Write(symbol);
             Console.ResetColor();
             Console.Write(" ");
             Console.Write("|");
@@ -132,6 +131,7 @@ static void DrawBoard(int[,] board)
     Console.ResetColor();
     Console.WriteLine();
 }
+
 
 static bool CheckWin(int[,] board, ArrayList winningCombinations)
 {
